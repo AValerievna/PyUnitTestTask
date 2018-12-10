@@ -1,0 +1,2 @@
+class TestFile(object):
+    pass
