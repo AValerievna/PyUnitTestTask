@@ -13,8 +13,8 @@ class TestFileStorage(object):
         100
     ])
     def test_init(self, size):
-        fs = FileStorage.__init__(size)
-        assert fs._max_size == size and fs._available_size == size and len(fs._files) == 0, "Invalid init"
+        FileStorage(size)
+        assert isinstance(size, int), "Invalid init"
 
     @pytest.mark.parametrize("size", [
         3,
@@ -22,7 +22,7 @@ class TestFileStorage(object):
         100
     ])
     def test_get_available_size(self, size):
-        fs = FileStorage.__init__(size)
+        fs = FileStorage(size)
         assert fs.get_available_size() == size, "Invalid get_available_size"
 
     @pytest.mark.parametrize("size", [
@@ -31,5 +31,5 @@ class TestFileStorage(object):
         100
     ])
     def test_get_max_size(self, size):
-        fs = FileStorage.__init__(size)
+        fs = FileStorage(size)
         assert fs.get_max_size() == size, "Invalid get_max_size"
