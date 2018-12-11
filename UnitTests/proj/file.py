@@ -44,3 +44,6 @@ class File(object):
         :return: имя файла с расшинением
         """
         return self._filename
+
+    def print_text(self):
+        print(self._content)
