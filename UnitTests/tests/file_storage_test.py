@@ -3,6 +3,7 @@ import time
 import pytest
 
 from file import File
+from proj.file_already_exist_error import FileAlreadyExistError
 from proj.file_storage import FileStorage
 
 
@@ -63,4 +64,16 @@ class TestFileStorage(object):
         assert f in fs.get_files() \
                and fs.get_available_size() == prev_size - f.get_size() \
                and res \
-               and total_time <= 2, "Invalid write"
+               and total_time <= 2, "Invalid write "
+
+    @pytest.mark.parametrize("size,filename, content", [
+        (10, "file1.txt", "some"),
+        (20, "file1.txt", "file_content"),
+        (20, "file1.txt", ""),
+    ])
+    @pytest.mark.xfail(raises=FileAlreadyExistError, reason="already exists", strict=True)
+    def test_write(self, size, filename, content):
+        fs = FileStorage(size)
+        f = File(filename, content)
+        fs.write(f)
+        fs.write(f)
