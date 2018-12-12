@@ -4,7 +4,6 @@ from proj.file import File
 
 
 class TestFile(object):
-    """Validation for Windows"""
 
     @pytest.mark.parametrize("filename,content", [
         ("file1.txt", "some-content"),
@@ -16,6 +15,7 @@ class TestFile(object):
         pytest.param("file*some.txt", "content", marks=pytest.mark.xfail(reason="invalid args", strict=True))
     ])
     def test_init_valid_params(self, filename, content):
+        """Validation for Windows"""
         File(filename, content)
         restricted_chars = ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
         assert "." in filename \
