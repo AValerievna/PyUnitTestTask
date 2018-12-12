@@ -149,7 +149,7 @@ class TestFileStorage(object):
         file = File(filename, content)
         file_storage.write(file)
         assert file_storage.delete(file.get_filename()) and file not in file_storage.get_files()
-
+        
     def test_delete_failed(self, size_filename_content_data):
         (size, filename, content) = size_filename_content_data
         file_storage = FileStorage(size)
