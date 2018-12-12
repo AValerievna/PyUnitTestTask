@@ -30,8 +30,8 @@ class TestFile(object):
         ("file.zip", "some-zip-content", "zip")
     ])
     def test_get_extension(self, filename, content, exp_ext):
-        f = File(filename, content)
-        assert f.get_extension() == exp_ext, "Invalid get_extension"
+        file = File(filename, content)
+        assert file.get_extension() == exp_ext, "Invalid get_extension"
 
     @pytest.mark.parametrize("filename,content,exp_size", (
             ("file1.txt", "some-content", 12),
@@ -40,8 +40,8 @@ class TestFile(object):
             ("file.zip", "", 0)
     ))
     def test_get_size(self, filename, content, exp_size):
-        f = File(filename, content)
-        assert f.get_size() == exp_size, "Invalid get_size"
+        file = File(filename, content)
+        assert file.get_size() == exp_size, "Invalid get_size"
 
     @pytest.mark.parametrize("filename,content", [
         ("file1.txt", "some-content"),
@@ -49,8 +49,8 @@ class TestFile(object):
         ("file.zip", "some-zip-content")
     ])
     def test_get_content(self, filename, content):
-        f = File(filename, content)
-        assert f.get_content() == content, "Invalid get_content"
+        file = File(filename, content)
+        assert file.get_content() == content, "Invalid get_content"
 
     @pytest.mark.parametrize("filename,content", [
         ("file1.txt", "some-content"),
@@ -58,8 +58,8 @@ class TestFile(object):
         ("file.zip", "some-zip-content")
     ])
     def test_get_filename(self, filename, content):
-        f = File(filename, content)
-        assert f.get_filename() == filename, "Invalid get_extension"
+        file = File(filename, content)
+        assert file.get_filename() == filename, "Invalid get_extension"
 
     @pytest.mark.parametrize("filename,content", [
         ("file1.txt", "some-content"),
@@ -67,7 +67,7 @@ class TestFile(object):
         ("file.zip", "some-zip-content")
     ])
     def test_print_text(self, filename, content, capsys):
-        f = File(filename, content)
-        f.print_text()
+        file = File(filename, content)
+        file.print_text()
         captured = capsys.readouterr()
         assert captured.out == content + "\n", "Not expected print result"
