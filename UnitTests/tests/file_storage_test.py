@@ -64,7 +64,7 @@ class TestFileStorage(object):
         0,
         100
     ])
-    def test_get_max_size(self, size):
+    def test_get_max_size_before_any_write(self, size):
         file_storage = FileStorage(size)
         assert file_storage.get_max_size() == size, "Invalid get_max_size"
 
@@ -73,7 +73,7 @@ class TestFileStorage(object):
         (20, "file1.txt", "file_content"),
         (20, "file1.txt", ""),
     ])
-    def test_get_files_after_any_write(self, size, filename, content):
+    def test_get_max_size_after_any_write(self, size, filename, content):
         file_storage = FileStorage(size)
         file = File(filename, content)
         file_storage.write(file)
@@ -92,7 +92,7 @@ class TestFileStorage(object):
         pytest.param(5, "file.zip", "some-cont",
                      marks=pytest.mark.xfail(reason="invalid size", strict=True))
     ])
-    def test_write(self, size, filename, content):
+    def test_write_success(self, size, filename, content):
         file_storage = FileStorage(size)
         file = File(filename, content)
         prev_size = file_storage.get_available_size()
@@ -164,7 +164,7 @@ class TestFileStorage(object):
         (20, "file1.txt", "file_content"),
         (20, "file1.txt", ""),
     ])
-    def test_delete_return_true(self, size, filename, content):
+    def test_delete_success(self, size, filename, content):
         file_storage = FileStorage(size)
         file = File(filename, content)
         file_storage.write(file)
@@ -175,6 +175,6 @@ class TestFileStorage(object):
         (20, "file1.txt"),
         (20, "file1.txt"),
     ])
-    def test_delete_return_false(self, size, filename):
+    def test_delete_failed(self, size, filename):
         file_storage = FileStorage(size)
         assert not file_storage.delete(filename)
