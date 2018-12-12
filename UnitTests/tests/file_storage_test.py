@@ -12,11 +12,15 @@ class TestFileStorage(object):
     @pytest.mark.parametrize("size", [
         3,
         0,
-        100
+        100,
+        pytest.param(-10,
+                     marks=pytest.mark.xfail(reason="invalid arg", strict=True)),
+        pytest.param("some",
+                     marks=pytest.mark.xfail(reason="invalid arg", strict=True)),
     ])
     def test_init(self, size):
         FileStorage(size)
-        assert isinstance(size, int), "Invalid init"
+        assert size >= 0, "Invalid init"
 
     @pytest.mark.parametrize("size", [
         3,
