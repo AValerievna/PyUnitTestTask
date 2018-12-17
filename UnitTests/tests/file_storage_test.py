@@ -104,7 +104,6 @@ class TestFileStorage(object):
         res = file_storage.write(file)
         t1 = time.time()
         total_time = t1 - t0
-        print(total_time)
 
         assert file in file_storage.get_files() \
                and file_storage.get_available_size() == prev_size - file.get_size() \
