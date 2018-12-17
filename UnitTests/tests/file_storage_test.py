@@ -1,5 +1,3 @@
-import time
-
 import pytest
 
 from proj.file import File
@@ -87,26 +85,23 @@ class TestFileStorage(object):
         (10, "file1.txt", "some"),
         (20, "file1.txt", "file_content"),
         (20, "file1.txt", ""),
-        (9, "file2.file2.png", "cont"),
-        (15, "file2.file2.png", "some_content"),
         pytest.param(10, "file.zip", "some-zip-file-content",
                      marks=pytest.mark.xfail(reason="invalid size", strict=True)),
         pytest.param(5, "file.zip", "some-cont",
-                     marks=pytest.mark.xfail(reason="invalid size", strict=True))
+                     marks=pytest.mark.xfail(reason="invalid size", strict=True)),
+        (9, "file2.file2.png", "cont"),
+        (15, "file2.file2.png", "some_content")
     ])
+    @pytest.mark.timeout(2, )
     def test_write_success(self, size, filename, content):
         file_storage = FileStorage(size)
         file = File(filename, content)
         prev_size = file_storage.get_available_size()
-        t0 = time.time()
         res = file_storage.write(file)
-        t1 = time.time()
-        total_time = t1 - t0
 
         assert file in file_storage.get_files() \
                and file_storage.get_available_size() == prev_size - file.get_size() \
-               and res \
-               and total_time <= 2, "Invalid write "
+               and res, "Invalid write "
 
     @pytest.mark.xfail(raises=FileAlreadyExistError, reason="already exists", strict=True)
     def test_write_with_existing_file(self, size_filename_content_data):
@@ -151,3 +146,4 @@ class TestFileStorage(object):
         (size, filename, content) = size_filename_content_data
         file_storage = FileStorage(size)
         assert not file_storage.delete(filename)
+
