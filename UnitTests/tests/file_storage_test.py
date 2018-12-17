@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from file import File
+from proj.file import File
 from proj.file_already_exist_error import FileAlreadyExistError
 from proj.file_storage import FileStorage
 
@@ -87,10 +87,8 @@ class TestFileStorage(object):
         (10, "file1.txt", "some"),
         (20, "file1.txt", "file_content"),
         (20, "file1.txt", ""),
-        pytest.param(9, "file2.file2.png", "cont",
-                     marks=pytest.mark.xfail(reason="invalid timing", strict=True)),
-        pytest.param(15, "file2.file2.png", "some_content",
-                     marks=pytest.mark.xfail(reason="invalid timing", strict=True)),
+        (9, "file2.file2.png", "cont"),
+        (15, "file2.file2.png", "some_content"),
         pytest.param(10, "file.zip", "some-zip-file-content",
                      marks=pytest.mark.xfail(reason="invalid size", strict=True)),
         pytest.param(5, "file.zip", "some-cont",

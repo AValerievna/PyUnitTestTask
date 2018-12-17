@@ -35,8 +35,7 @@ class TestFile(object):
 
     @pytest.mark.parametrize("filename,content,exp_size", (
             ("file1.txt", "some-content", 12),
-            pytest.param("file2.file2.png", "content", 7,
-                         marks=pytest.mark.xfail(reason="wrong get_size realisation", strict=True)),
+            ("file2.file2.png", "content", 7),
             ("file.zip", "", 0)
     ))
     def test_get_size(self, filename, content, exp_size):
