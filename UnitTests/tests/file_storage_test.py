@@ -42,7 +42,6 @@ class TestFileStorage(object):
     ])
     def test_init(self, size):
         FileStorage(size)
-        assert size >= 0, "Invalid init"
 
     def test_get_available_size_before_any_write(self, storage_size_data):
         (size) = storage_size_data
@@ -85,10 +84,8 @@ class TestFileStorage(object):
         (10, "file1.txt", "some"),
         (20, "file1.txt", "file_content"),
         (20, "file1.txt", ""),
-        pytest.param(10, "file.zip", "some-zip-file-content",
-                     marks=pytest.mark.xfail(reason="invalid size", strict=True)),
-        pytest.param(5, "file.zip", "some-cont",
-                     marks=pytest.mark.xfail(reason="invalid size", strict=True)),
+        (10, "file.zip", "some-zip-file-content"),
+        (5, "file.zip", "some-cont"),
         (9, "file2.file2.png", "cont"),
         (15, "file2.file2.png", "some_content")
     ])
@@ -101,7 +98,10 @@ class TestFileStorage(object):
 
         assert file in file_storage.get_files() \
                and file_storage.get_available_size() == prev_size - file.get_size() \
-               and res, "Invalid write "
+               and res \
+               and file.get_size() <= prev_size or \
+               not res and file not in file_storage.get_files() \
+               and file_storage.get_available_size() == prev_size, "Invalid write "
 
     @pytest.mark.xfail(raises=FileAlreadyExistError, reason="already exists", strict=True)
     def test_write_with_existing_file(self, size_filename_content_data):

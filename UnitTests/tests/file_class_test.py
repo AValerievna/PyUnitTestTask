@@ -17,12 +17,6 @@ class TestFile(object):
     def test_init_valid_params(self, filename, content):
         """Validation for Windows"""
         File(filename, content)
-        restricted_chars = ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
-        assert "." in filename \
-               and filename.index(".") != (len(filename) - 1) \
-               and filename.find(" ") != (len(filename) - 1) \
-               and not any(elem in filename for elem in restricted_chars) \
-               and isinstance(content, str), "Invalid init"
 
     @pytest.mark.parametrize("filename,content,exp_ext", [
         ("file1.txt", "some-content", "txt"),
